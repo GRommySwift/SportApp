@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3062A3612E75A6EA00E9EC0B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 3062A3602E75A6EA00E9EC0B /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3062A3252E75A23D00E9EC0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3062A3612E75A6EA00E9EC0B /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = SportApp;
 			packageProductDependencies = (
+				3062A3602E75A6EA00E9EC0B /* ComposableArchitecture */,
 			);
 			productName = SportApp;
 			productReference = 3062A3152E75A23C00E9EC0B /* SportApp.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 3062A30C2E75A23C00E9EC0B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3062A35F2E75A6EA00E9EC0B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3062A3162E75A23C00E9EC0B /* Products */;
 			projectDirPath = "";
@@ -558,6 +567,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3062A35F2E75A6EA00E9EC0B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.22.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3062A3602E75A6EA00E9EC0B /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3062A35F2E75A6EA00E9EC0B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3062A30D2E75A23C00E9EC0B /* Project object */;
 }
