@@ -11,4 +11,5 @@ public protocol LocalEventStore {
   func fetchAll() async throws -> [Event]
   func save(_ event: Event) async throws
   func delete(id: UUID) async throws
+  func clearAll() async throws
 }

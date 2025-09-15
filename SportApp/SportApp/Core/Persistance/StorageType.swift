@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum StorageType {
+public enum StorageType: Codable {
     case local
     case remote
 }

@@ -8,6 +8,11 @@
 import Foundation
 
 public enum PersistenceResponse: Error, Equatable {
-    case success
+    case success(Event)
     case failed(String)
+}
+
+public enum DeleteResponse: Equatable {
+    case success(UUID)
+    case failure(String)
 }

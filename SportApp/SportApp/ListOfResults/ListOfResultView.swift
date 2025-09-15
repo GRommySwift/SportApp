@@ -11,6 +11,7 @@ import ComposableArchitecture
 
 struct ListOfResultView: View {
     let store: StoreOf<ListOfResultDomain>
+    @State var uiFilter: EventFilter = .all
     
     var body: some View {
         NavigationStack {
@@ -18,8 +19,18 @@ struct ListOfResultView: View {
                 List {
                     ForEachStore(store.scope(state: \.events, action: \.event)) { productStore in
                         ResultItemView(store: productStore)
+                            .listRowInsets(EdgeInsets())
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                            .padding(10)
+                    }
+                    .onDelete { indexSet in
+                        let ids = indexSet.map { viewStore.events[$0].id }
+                        viewStore.send(.delete(ids: ids))
                     }
                 }
+                .listStyle(.plain)
+                .frame(maxWidth: .infinity)
                 .navigationTitle("SportApp")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -30,15 +41,23 @@ struct ListOfResultView: View {
                         .padding(.trailing, 10)
                     }
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("Filter") {
-                            //
+
+                            Picker("", selection: $uiFilter) {
+                                ForEach(EventFilter.allCases, id: \.self) {
+                                    Text($0.rawValue).tag($0)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .onChange(of: uiFilter) { new in
+                                viewStore.send(.toggleFilter(new))
+                            }
                         }
-                    }
                 }
                 .navigationDestination(
                     store: store.scope(state: \.$addNewResult, action: \.dismissAdd)
                 ) { addStore in
-                AddNewResult(store: addStore)
+                    AddNewResult(store: addStore)
                 }
             }
         }

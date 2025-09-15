@@ -8,9 +8,11 @@
 import SwiftUI
 import SwiftData
 import ComposableArchitecture
+import FirebaseCore
 
 @main
 struct SportAppApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let container: ModelContainer
     
     init() {
@@ -25,7 +27,8 @@ struct SportAppApp: App {
         let container = try! ModelContainer(for: EventLocal.self)
            let modelContext = ModelContext(container)
            return withDependencies {
-               $0.localEventStore = SwiftDataEventStore(context: modelContext)
+               $0.localEventStore = SwiftDataEventStore(context: modelContext);
+               $0.remoteEventStore = FirebaseEventStore()
            } operation: {
                Store(initialState: ListOfResultDomain.State()) {
                    ListOfResultDomain()

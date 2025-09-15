@@ -12,10 +12,30 @@ struct ResultItemView: View {
     let store: StoreOf<ResultItemDomain>
     
     var body: some View {
-        VStack {
-            Text(store.events.place)
-            Text(store.events.title)
-            Text(store.events.duration.description)
+        VStack(spacing: 0) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Event title:")
+                    Text("Place of event:")
+                    Text("Place of event:")
+                }
+                .font(.headline)
+                .padding(.trailing, 50)
+                VStack(alignment: .leading) {
+                    Text(store.events.title)
+                    Text(store.events.duration.description)
+                    Text(store.events.place)
+                }
+                .font(.headline)
+                Spacer()
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(store.events.storageType == .local ? .green.opacity(0.3) : .blue.opacity(0.3)))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(Color(UIColor.systemGray4), lineWidth: 2)
         }
     }
 }

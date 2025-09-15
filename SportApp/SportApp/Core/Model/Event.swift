@@ -13,6 +13,7 @@ public struct Event: Equatable, Codable, Identifiable {
     public var title: String
     public var place: String
     public var duration: Double
+    public var storageType: StorageType
 }
 
-var testResult = Event(id: UUID(), title: "Football", place: "Manchester", duration: 100)
+var testResult = Event(id: UUID(), title: "Football", place: "Manchester", duration: 100, storageType: .local)

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3062A3612E75A6EA00E9EC0B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 3062A3602E75A6EA00E9EC0B /* ComposableArchitecture */; };
+		3062A4442E788DA500E9EC0B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3062A4432E788DA500E9EC0B /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3062A3612E75A6EA00E9EC0B /* ComposableArchitecture in Frameworks */,
+				3062A4442E788DA500E9EC0B /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,7 @@
 			name = SportApp;
 			packageProductDependencies = (
 				3062A3602E75A6EA00E9EC0B /* ComposableArchitecture */,
+				3062A4432E788DA500E9EC0B /* FirebaseFirestore */,
 			);
 			productName = SportApp;
 			productReference = 3062A3152E75A23C00E9EC0B /* SportApp.app */;
@@ -203,6 +206,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3062A35F2E75A6EA00E9EC0B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				3062A4422E788DA500E9EC0B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3062A3162E75A23C00E9EC0B /* Products */;
@@ -577,6 +581,14 @@
 				minimumVersion = 1.22.2;
 			};
 		};
+		3062A4422E788DA500E9EC0B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -584,6 +596,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3062A35F2E75A6EA00E9EC0B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		3062A4432E788DA500E9EC0B /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3062A4422E788DA500E9EC0B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

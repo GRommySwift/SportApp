@@ -15,7 +15,7 @@ struct AddNewResultDomain {
     struct State: Equatable {
         var title = ""
         var place = ""
-        var duration: Double = 0
+        var duration = ""
         var storage: StorageType = .local
         var errorMessage: String?
     }
@@ -23,13 +23,15 @@ struct AddNewResultDomain {
     enum Action: Equatable {
         case titleChanged(String)
         case placeChanged(String)
-        case durationChanged(Double)
+        case durationChanged(String)
         case storageChanged(StorageType)
         case saveTapped
         case saveResponse(PersistenceResponse)
+        case dismiss
     }
     
     @Dependency(\.localEventStore) var localStore
+    @Dependency(\.remoteEventStore) var remoteStore
     
     var body: some ReducerOf<Self> {
             Reduce { state, action in
@@ -48,18 +50,31 @@ struct AddNewResultDomain {
                     return .none
                 case .saveTapped:
                     state.errorMessage = nil
-                    let event = Event(id: UUID(), title: state.title, place: state.place, duration: state.duration)
+                    let event = Event(id: UUID(), title: state.title, place: state.place, duration: Double(state.duration) ?? 0.0, storageType: state.storage)
                     
                     return .run { send in
                         do {
-                            try await localStore.save(event)
-                            await send(.saveResponse(.success))
+                            switch event.storageType {
+                            case .local:
+                                try await localStore.save(event)
+                            case .remote:
+                                try await remoteStore.save(event)
+                            }
+                            await send(.saveResponse(.success(event)))
                         } catch {
                             await send(.saveResponse(.failed(error.localizedDescription)))
                         }
                     }
-                case .saveResponse:
+                case .saveResponse(.success(_)):
                     return .none
+                case let .saveResponse(.failed(errorText)):
+                    state.errorMessage = errorText
+                    return.none
+                case .dismiss:
+                    state.title = ""
+                    state.place = ""
+                    state.duration = ""
+                    return.none
                 }
             }
         }

@@ -36,4 +36,19 @@ public final class SwiftDataEventStore: LocalEventStore {
             try context.save()
         }
     }
+    
+    public func clearAll() async throws {
+        try? self.context.clearAllEvents()
+    }
+}
+
+extension ModelContext {
+    func clearAllEvents() throws {
+        let fetch = FetchDescriptor<EventLocal>()
+        let events = try self.fetch(fetch)
+        for event in events {
+            self.delete(event)
+        }
+        try self.save()
+    }
 }
