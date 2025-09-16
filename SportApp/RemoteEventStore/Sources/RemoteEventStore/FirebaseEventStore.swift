@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import SharedModels
 
-actor FirebaseEventStore: RemoteEventStore {
+public actor FirebaseEventStore: RemoteEventStore {
     private let db: Firestore
     private let collection: CollectionReference
     
