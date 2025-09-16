@@ -1,0 +1,10 @@
+.DS_Store
+# Firebase config — do not commit
+GoogleService-Info.plist
+**/GoogleService-Info.plist
+
+# Xcode
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/

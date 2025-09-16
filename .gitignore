@@ -30,6 +30,9 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+SportApp/.DS_Store
+.DS_Store
+GoogleService-Info.plist
 
 # CocoaPods
 #
@@ -60,3 +63,4 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+SportApp/.DS_Store
