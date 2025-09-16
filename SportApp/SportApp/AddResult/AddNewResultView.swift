@@ -15,32 +15,36 @@ struct AddNewResultView: View {
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             NavigationView {
-                VStack(alignment: .center, spacing: 30) {
-                    Spacer()
-                    CustomTextField(text: viewStore.binding(
-                        get: \.title,
-                        send: AddNewResultDomain.Action.titleChanged
-                    ), title: "Title")
-                    CustomTextField(text: viewStore.binding(
-                        get: \.place,
-                        send: AddNewResultDomain.Action.placeChanged
-                    ), title: "Place")
-                    CustomTextField(text: viewStore.binding(
-                        get: \.duration,
-                        send: AddNewResultDomain.Action.durationChanged
-                    ), title: "Duration")
-                    .keyboardType(.numberPad)
-                    StoragePicker(store: store, viewStore: viewStore)
-                    Spacer()
-                    Button("Save") {
-                        viewStore.send(.saveTapped)
+                ScrollView {
+                    VStack(alignment: .center, spacing: 30) {
+                        Spacer()
+                        CustomTextField(text: viewStore.binding(
+                            get: \.title,
+                            send: AddNewResultDomain.Action.titleChanged
+                        ), title: "Title")
+                        CustomTextField(text: viewStore.binding(
+                            get: \.place,
+                            send: AddNewResultDomain.Action.placeChanged
+                        ), title: "Place")
+                        CustomTextField(text: viewStore.binding(
+                            get: \.duration,
+                            send: AddNewResultDomain.Action.durationChanged
+                        ), title: "Duration")
+                        .keyboardType(.numberPad)
+                        StoragePicker(store: store, viewStore: viewStore)
+                        Spacer()
+                        Button("Save") {
+                            viewStore.send(.saveTapped)
+                        }
+                        .buttonStyle(SaveButtonStyle())
+                        Spacer()
+                        
                     }
-                    .buttonStyle(SaveButtonStyle())
-                    Spacer()
-                    
+                    .padding()
+                    .navigationTitle("Add Result").navigationBarTitleDisplayMode(.inline)
                 }
-                .padding()
-                .navigationTitle("Add Result").navigationBarTitleDisplayMode(.inline)
+                .scrollIndicators(.hidden)
+                .scrollDismissesKeyboard(.interactively)
             }
         }
     }
