@@ -30,6 +30,7 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+SportApp/.DS_Store
 .DS_Store
 GoogleService-Info.plist
 
