@@ -30,6 +30,8 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+.DS_Store
+GoogleService-Info.plist
 
 # CocoaPods
 #
