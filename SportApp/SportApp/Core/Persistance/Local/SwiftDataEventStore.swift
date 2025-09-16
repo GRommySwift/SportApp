@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SharedModels
 
 @MainActor
 public final class SwiftDataEventStore: LocalEventStore {

@@ -8,6 +8,7 @@
 import Foundation
 import ComposableArchitecture
 import SwiftData
+import SharedModels
 
 @Reducer
 struct AddNewResultDomain {
@@ -39,15 +40,19 @@ struct AddNewResultDomain {
                 case let .titleChanged(newTitle):
                     state.title = newTitle
                     return .none
+                    
                 case let .placeChanged(newPlace):
                     state.place = newPlace
                     return .none
+                    
                 case let .durationChanged(newDuration):
                     state.duration = newDuration
                     return .none
+                    
                 case let .storageChanged(selectedStorage):
                     state.storage = selectedStorage
                     return .none
+                    
                 case .saveTapped:
                     state.errorMessage = nil
                     let event = Event(id: UUID(), title: state.title, place: state.place, duration: Double(state.duration) ?? 0.0, storageType: state.storage)
@@ -67,9 +72,11 @@ struct AddNewResultDomain {
                     }
                 case .saveResponse(.success(_)):
                     return .none
+                    
                 case let .saveResponse(.failed(errorText)):
                     state.errorMessage = errorText
                     return.none
+                    
                 case .dismiss:
                     state.title = ""
                     state.place = ""

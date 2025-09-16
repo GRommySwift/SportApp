@@ -36,28 +36,21 @@ struct ListOfResultView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("Add") {
-                            store.send(.showAdd)
+                            store.send(.goToAddNewResultView)
                         }
                         .padding(.trailing, 10)
                     }
                     ToolbarItem(placement: .topBarLeading) {
-
-                            Picker("", selection: $uiFilter) {
-                                ForEach(EventFilter.allCases, id: \.self) {
-                                    Text($0.rawValue).tag($0)
-                                }
+                        DropdownMenu(selectedOption: $uiFilter)
+                            .onChange(of: uiFilter) {
+                                viewStore.send(.toggleFilter(uiFilter))
                             }
-                            .pickerStyle(.menu)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .onChange(of: uiFilter) { new in
-                                viewStore.send(.toggleFilter(new))
-                            }
-                        }
+                    }
                 }
                 .navigationDestination(
                     store: store.scope(state: \.$addNewResult, action: \.dismissAdd)
                 ) { addStore in
-                    AddNewResult(store: addStore)
+                    AddNewResultView(store: addStore)
                 }
             }
         }
@@ -72,3 +65,25 @@ struct ListOfResultView: View {
         ListOfResultDomain()
     })
 }
+
+extension ListOfResultView {
+    struct DropdownMenu: View {
+        @Binding var selectedOption: EventFilter
+        
+        var body: some View {
+            Menu {
+                Button("All", action: { selectedOption = .all })
+                Button("Local", action: { selectedOption = .local })
+                Button("Remote", action: { selectedOption = .remote })
+            } label: {
+                Label("", systemImage: "line.3.horizontal.decrease.circle")
+                    .padding()
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(8)
+            }
+        }
+    }
+}
+
+
+

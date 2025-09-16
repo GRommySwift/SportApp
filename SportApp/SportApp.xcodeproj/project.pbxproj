@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3062A3612E75A6EA00E9EC0B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 3062A3602E75A6EA00E9EC0B /* ComposableArchitecture */; };
-		3062A4442E788DA500E9EC0B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3062A4432E788DA500E9EC0B /* FirebaseFirestore */; };
+		307176E02E7A141F008CE561 /* RemoteEventStore in Frameworks */ = {isa = PBXBuildFile; productRef = 307176DF2E7A141F008CE561 /* RemoteEventStore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +32,8 @@
 		3062A3152E75A23C00E9EC0B /* SportApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3062A3242E75A23D00E9EC0B /* SportAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3062A32E2E75A23D00E9EC0B /* SportAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		307176DC2E7A12CC008CE561 /* SharedModels */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SharedModels; sourceTree = "<group>"; };
+		307176DE2E7A1303008CE561 /* RemoteEventStore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RemoteEventStore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -58,7 +60,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3062A3612E75A6EA00E9EC0B /* ComposableArchitecture in Frameworks */,
-				3062A4442E788DA500E9EC0B /* FirebaseFirestore in Frameworks */,
+				307176E02E7A141F008CE561 /* RemoteEventStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,9 +84,12 @@
 		3062A30C2E75A23C00E9EC0B = {
 			isa = PBXGroup;
 			children = (
+				307176DE2E7A1303008CE561 /* RemoteEventStore */,
+				307176DC2E7A12CC008CE561 /* SharedModels */,
 				3062A3172E75A23C00E9EC0B /* SportApp */,
 				3062A3272E75A23D00E9EC0B /* SportAppTests */,
 				3062A3312E75A23D00E9EC0B /* SportAppUITests */,
+				307176D32E7A1093008CE561 /* Frameworks */,
 				3062A3162E75A23C00E9EC0B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,6 +102,13 @@
 				3062A32E2E75A23D00E9EC0B /* SportAppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		307176D32E7A1093008CE561 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,7 +132,7 @@
 			name = SportApp;
 			packageProductDependencies = (
 				3062A3602E75A6EA00E9EC0B /* ComposableArchitecture */,
-				3062A4432E788DA500E9EC0B /* FirebaseFirestore */,
+				307176DF2E7A141F008CE561 /* RemoteEventStore */,
 			);
 			productName = SportApp;
 			productReference = 3062A3152E75A23C00E9EC0B /* SportApp.app */;
@@ -206,7 +218,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3062A35F2E75A6EA00E9EC0B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				3062A4422E788DA500E9EC0B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3062A3162E75A23C00E9EC0B /* Products */;
@@ -581,14 +592,6 @@
 				minimumVersion = 1.22.2;
 			};
 		};
-		3062A4422E788DA500E9EC0B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.2.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -597,10 +600,9 @@
 			package = 3062A35F2E75A6EA00E9EC0B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
 		};
-		3062A4432E788DA500E9EC0B /* FirebaseFirestore */ = {
+		307176DF2E7A141F008CE561 /* RemoteEventStore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3062A4422E788DA500E9EC0B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
+			productName = RemoteEventStore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

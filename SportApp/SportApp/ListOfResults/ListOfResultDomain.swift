@@ -1,10 +1,13 @@
-////
-////  ListOfResultDomain.swift
-////  SportApp
-////
-////  Created by Roman on 13/09/2025.
+//
+//  ListOfResultDomain.swift
+//  SportApp
+//
+//  Created by Roman on 13/09/2025.
+//
+
 import Foundation
 import ComposableArchitecture
+import SharedModels
 
 @Reducer
 struct ListOfResultDomain {
@@ -22,10 +25,7 @@ struct ListOfResultDomain {
             let source: [Event]
             switch selectedFilter {
             case .all:
-                var dict: [UUID: Event] = [:]
-                for e in localItems { dict[e.id] = e }
-                for e in remoteItems { dict[e.id] = e }
-                source = Array(dict.values)
+                source = localItems + remoteItems
             case .local:
                 source = localItems
             case .remote:
@@ -38,13 +38,12 @@ struct ListOfResultDomain {
         }
     }
 
-    enum Action: Equatable, BindableAction {
-        case binding(BindingAction<State>)
+    enum Action: Equatable {
         case onAppear
         case localFetched([Event])
         case remoteFetched([Event])
         case setError(String)
-        case showAdd
+        case goToAddNewResultView
         case dismissAdd(PresentationAction<AddNewResultDomain.Action>)
         case toggleFilter(EventFilter)
         case event(id: ResultItemDomain.State.ID, action: ResultItemDomain.Action)
@@ -57,7 +56,6 @@ struct ListOfResultDomain {
     @Dependency(\.remoteEventStore) var remoteStore
 
     var body: some ReducerOf<Self> {
-        BindingReducer()
         Reduce { state, action in
             switch action {
             case .onAppear:
@@ -95,12 +93,12 @@ struct ListOfResultDomain {
                 state.isLoading = false
                 return .none
 
-            case let .setError(msg):
+            case let .setError(errorMessage):
                 state.isLoading = false
-                state.error = msg
+                state.error = errorMessage
                 return .none
 
-            case .showAdd:
+            case .goToAddNewResultView:
                 state.addNewResult = AddNewResultDomain.State()
                 return .none
                 
@@ -128,9 +126,6 @@ struct ListOfResultDomain {
                 state.mergeRecords()
                 return .none
 
-            case .event:
-                return .none
-
             case let .delete(ids):
                 let eventsToDelete = state.events
                     .filter { ids.contains($0.id) }
@@ -139,9 +134,10 @@ struct ListOfResultDomain {
                 for id in ids {
                     state.events.remove(id: id)
                 }
+                
                 state.localItems.removeAll { ids.contains($0.id) }
                 state.remoteItems.removeAll { ids.contains($0.id) }
-
+                
                 let effects: [Effect<Action>] = eventsToDelete.map { (id, event) in
                     .run { send in
                         do {
@@ -157,7 +153,6 @@ struct ListOfResultDomain {
                         }
                     }
                 }
-
                 return .merge(effects)
 
             case .deleteSuccess:
@@ -175,124 +170,3 @@ struct ListOfResultDomain {
         }
     }
 }
-
-
-//
-//import SwiftUI
-//import ComposableArchitecture
-//
-//@Reducer
-//struct ListOfResultDomain {
-//    @ObservableState
-//    struct State: Equatable {
-//        @Presents var addNewResult: AddNewResultDomain.State?
-//        var events: IdentifiedArrayOf<ResultItemDomain.State> = []
-//        var isLoading: Bool = false
-//        var error: String?
-//        var selectedFilter: EventFilter = .all
-//        var localItems: [Event] = []
-//        var remoteItems: [Event] = []
-//    }
-//    
-//    enum Action: Equatable {
-//        case onAppear
-//        case setEvents([Event])
-//        case setError(String)
-//        case showAdd
-//        case dismissAdd(PresentationAction<AddNewResultDomain.Action>)
-//        case toggleFilter(EventFilter)
-//        case event(id: ResultItemDomain.State.ID, action: ResultItemDomain.Action)
-//        case delete(IndexSet)
-//        case deleteResponse(DeleteResponse)
-//    }
-//    
-//    @Dependency(\.localEventStore) var localStore
-//    @Dependency(\.remoteEventStore) var remoteStore
-//    
-//    var body: some ReducerOf<Self> {
-//        Reduce { state, action in
-//            switch action {
-//            case .onAppear:
-//                state.isLoading = true
-//                state.error = nil
-//                return .run { send in
-//                    do {
-//                        let localItems = try await localStore.fetchAll()
-//                        let remoteItems = try await remoteStore.fetchAll()
-//                        let items: [Event] = localItems + remoteItems
-//                        await send(.setEvents(items))
-//                    } catch {
-//                        await send(.setError(error.localizedDescription))
-//                    }
-//                }
-//                
-//            case let .setEvents(items):
-//                state.isLoading = false
-//                state.events = IdentifiedArray(uniqueElements: items.map { Event in
-//                    ResultItemDomain.State(events: Event)
-//                })
-//                return .none
-//                
-//            case let .setError(error):
-//                state.isLoading = false
-//                state.error = error
-//                return .none
-//                
-//            case .showAdd:
-//                state.addNewResult = AddNewResultDomain.State()
-//                return .none
-//                
-//            case let .dismissAdd(.presented(.saveResponse(.success(event)))):
-//                state.events.insert(ResultItemDomain.State(events: event), at: 0)
-//                state.addNewResult = nil
-//                return .none
-//                
-//            case let .dismissAdd(.presented(.saveResponse(.failed(errorMessage)))):
-//                state.error = errorMessage
-//                return .none
-//                
-//            case .dismissAdd(.dismiss):
-//                state.addNewResult = nil
-//                return .none
-//                
-//            case let .toggleFilter(selectedFilter):
-//                state.selectedFilter = selectedFilter
-//                return .none
-//                
-//            case .event:
-//                return .none
-//                
-//            case .delete(let indexSet):
-//                guard let index = indexSet.first else { return .none }
-//                let event = state.events[index].events
-//                
-//                return .run { send in
-//                    do {
-//                        switch event.storageType {
-//                        case .local:
-//                            try await localStore.delete(id: event.id)
-//                        case .remote:
-//                            try await remoteStore.delete(id: event.id)
-//                        }
-//                        
-//                        await send(.deleteResponse(.success(event.id)))
-//                    } catch {
-//                        await send(.deleteResponse(.failure(error.localizedDescription)))
-//                    }
-//                }
-//            case .deleteResponse(.success(let id)):
-//                state.events.removeAll { $0.id == id }
-//                return .none
-//                
-//            case .deleteResponse(.failure(let error)):
-//                print("Delete failed: \(error)")
-//                return .none
-//            default:
-//                return .none
-//            }
-//        }
-//        .ifLet(\.$addNewResult, action: \.dismissAdd) {
-//            AddNewResultDomain()
-//        }
-//    }
-//}

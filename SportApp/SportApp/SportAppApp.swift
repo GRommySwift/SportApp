@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import ComposableArchitecture
 import FirebaseCore
+import RemoteEventStore
 
 @main
 struct SportAppApp: App {

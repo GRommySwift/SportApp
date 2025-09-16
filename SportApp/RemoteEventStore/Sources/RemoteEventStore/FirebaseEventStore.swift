@@ -1,22 +1,23 @@
 //
 //  FirebaseEventStore.swift
-//  SportApp
+//  RemoteEventStore
 //
-//  Created by Roman on 15/09/2025.
+//  Created by Roman on 16/09/2025.
 //
 
 import Foundation
 import FirebaseFirestore
+import SharedModels
 
-public final class FirebaseEventStore: RemoteEventStore {
+actor FirebaseEventStore: RemoteEventStore {
     private let db: Firestore
     private let collection: CollectionReference
-
+    
     public init(firestore: Firestore = Firestore.firestore(), collectionName: String = "events") {
         self.db = firestore
         self.collection = db.collection(collectionName)
     }
-
+    
     public func fetchAll() async throws -> [Event] {
         return try await withCheckedThrowingContinuation { cont in
             collection.getDocuments { snapshot, error in
@@ -26,7 +27,9 @@ public final class FirebaseEventStore: RemoteEventStore {
                 for doc in docs {
                     do {
                         let data = try doc.data(as: EventRemote.self)
-                        if let verifiedData = data.toDomain() { result.append(verifiedData) }
+                        if let verifiedData = data.toDomain() {
+                            result.append(verifiedData)
+                        }
                     } catch {
                         print("DTO decode error:", error)
                     }
@@ -35,26 +38,33 @@ public final class FirebaseEventStore: RemoteEventStore {
             }
         }
     }
-
+    
     public func save(_ event: Event) async throws {
         let data = EventRemote(from: event)
         return try await withCheckedThrowingContinuation { cont in
             do {
                 let docRef = collection.document(data.id)
                 try docRef.setData(from: data) { error in
-                    if let error = error { cont.resume(throwing: error) } else { cont.resume(returning: ()) }
+                    if let error = error {
+                        cont.resume(throwing: error)
+                    } else {
+                        cont.resume(returning: ())
+                    }
                 }
             } catch {
                 cont.resume(throwing: error)
             }
         }
     }
-
-    // delete
+    
     public func delete(id: UUID) async throws {
         return try await withCheckedThrowingContinuation { cont in
             collection.document(id.uuidString).delete { error in
-                if let error = error { cont.resume(throwing: error) } else { cont.resume(returning: ()) }
+                if let error = error {
+                    cont.resume(throwing: error)
+                } else {
+                    cont.resume(returning: ())
+                }
             }
         }
     }

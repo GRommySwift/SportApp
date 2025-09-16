@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SharedModels
 
 public enum PersistenceResponse: Error, Equatable {
     case success(Event)

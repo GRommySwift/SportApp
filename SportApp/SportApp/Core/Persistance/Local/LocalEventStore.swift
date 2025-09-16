@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SharedModels
 
 public protocol LocalEventStore {
   func fetchAll() async throws -> [Event]

@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+import RemoteEventStore
 
 private enum RemoteEventStoreKey: DependencyKey {
   static var liveValue: RemoteEventStore = {
