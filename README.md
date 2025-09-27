@@ -18,9 +18,9 @@ A compact reference for the Test Assignment: a small SwiftUI app (no Storyboards
 
 - [x] SwiftUI — declarative UI, fast iteration, and native support for iOS modern layouts and rotations.
 
-- [x] TCA (Composable Architecture) — predictable state, easy composition of features, and built-in testability for reducers/effects. Good fit for interview/test tasks to show structure and unit tests.
+- [x] TCA (Composable Architecture) — predictable state, easy composition of features, and built-in testability for reducers/effects. 
 
-- [x] SwiftData (local) — Apple-first lightweight local persistence for simple domain models. Alternately you could use Realm if you prefer.
+- [x] SwiftData (local) — Apple-first lightweight local persistence for simple domain models.
 
 - [x] Firebase Firestore (remote) — simple hosted document store; wrapped behind a RemoteEventStore protocol so the app code stays decoupled. The Firestore adapter is implemented as a separate Swift Package so it can be swapped or isolated.
 
